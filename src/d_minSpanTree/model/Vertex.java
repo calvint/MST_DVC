@@ -2,7 +2,7 @@ package d_minSpanTree.model;
 
 import java.util.ArrayList;
 
-public class Vertex {
+public class Vertex implements Comparable<Vertex>{
 	private double position[] = new double[2];
 	private String name, displayName;
 	private ArrayList<Vertex> adj = new ArrayList<Vertex>();
@@ -44,6 +44,23 @@ public class Vertex {
 
 	public ArrayList<Vertex> getAdjacent() {
 		return adj;
+	}
+
+	@Override
+	public int compareTo(Vertex o) {
+		if (getX() < o.getX()) {
+			return -1;
+		} else if (getX() > o.getX()) {
+			return 1;
+		} else {
+			if (getY() < o.getY()) {
+				return -1;
+			} else if (getY() > o.getY()) {
+				return 1;
+			} else {
+				return 0; //same X, same Y, therefore same point.
+			}
+		}
 	}
 
 }
