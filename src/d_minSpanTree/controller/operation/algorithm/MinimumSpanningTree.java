@@ -11,7 +11,7 @@ import d_minSpanTree.model.VertexComparator;
 
 public class MinimumSpanningTree implements GraphAlgorithm {
 	private ArrayList<ArrayList<Vertex>> forest;
-	private TreeMap<Vertex,ArrayList<Vertex>> vertexToTree;
+	private HashMap<Vertex,ArrayList<Vertex>> vertexToTree;
 
 	public void execute(GraphModelInterface gmi) {
 		forest = new ArrayList<ArrayList<Vertex>>();
@@ -19,7 +19,7 @@ public class MinimumSpanningTree implements GraphAlgorithm {
 			e.setOpacity(.05);
 		}
 		ArrayList<Edge> finalTree = new ArrayList<Edge>();
-		vertexToTree = new TreeMap<>(new VertexComparator());
+		vertexToTree = new HashMap<>();
 		ArrayList<Object> edges = new ArrayList<Object>();
 		edges.addAll(gmi.getEdges());
 		
@@ -47,7 +47,7 @@ public class MinimumSpanningTree implements GraphAlgorithm {
 				tree1.addAll(tree2);
 				//now update the tree holder.
 				for (Vertex vert : tree2) {
-					vertexToTree.remove(vert);
+					//vertexToTree.remove(vert);
 					vertexToTree.put(vert,tree1); //overwrites
 				}
 				forest.remove(tree2);
