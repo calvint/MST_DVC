@@ -59,5 +59,13 @@ public class Edge {
 	public void setState(EdgeState e) {
 		state = e;
 	}
-
+	
+	public boolean equals(Edge other) {
+		if ( (this.start.getX() == other.end.getX() & this.end.getY() == other.start.getY()) || 
+				(this.start.getX() == other.end.getX() & this.end.getY() == other.start.getY()) ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
