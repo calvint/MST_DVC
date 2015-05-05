@@ -56,30 +56,37 @@ public class AddNRandomVertices implements GraphOperation {
             	if (triangle.pointInsideCircumcircle(v)) {
             	    // TODO: Add all possible triangles!
             	    // The triangles we're trying to remove here don't exist yet!
-            		//badTriangles.add(triangle);
+            		badTriangles.add(triangle);
             	}
             }
 
             //determine polygon around triangles that need to be changed
             ArrayList<Edge> polygon = new ArrayList<Edge>();
+            //for each opf the triangles we have
             for (Triangle badTriangle : badTriangles) {
-            	Edge polygonEdge = null;
-            	outerloop:
+            	//find edges that are NOT shared by any other triangles
             	for (Edge edge : badTriangle.getEdges()) {
+            		boolean shared = false;
+            		outerloop:
             		for (Triangle otherBadTriangle : badTriangles) {
             			if (badTriangle != otherBadTriangle) {
             				for (Edge otherEdge: otherBadTriangle.getEdges()) {
             					if (edge.equals(otherEdge)) {
-            						polygonEdge = edge;
+            						//if the edge is found in any of the other triangles
+            						//break, and don't add it
+            						shared = true;
             						break outerloop;
             					}
             				}
             			}
             		}
+            		if (!shared) {
+            			//we didn't find the edge, so do add it.
+            			polygon.add(edge);
+            		}
             	}
-            	polygon.add(polygonEdge);
             }
-
+          //  System.out.println("Polygon size: " + polygon.size());
             //remove the outdated triangles
             for (Triangle badTriangle : badTriangles) {
             	triangulation.remove(badTriangle);

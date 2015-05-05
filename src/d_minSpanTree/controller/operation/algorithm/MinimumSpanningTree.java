@@ -20,6 +20,7 @@ public class MinimumSpanningTree implements GraphAlgorithm {
 		}
 		ArrayList<Edge> finalTree = new ArrayList<Edge>();
 		vertexToTree = new HashMap<>();
+		System.out.println("Edges: " + gmi.getEdges().size());
 		ArrayList<Object> edges = new ArrayList<Object>();
 		edges.addAll(gmi.getEdges());
 		
