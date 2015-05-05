@@ -48,12 +48,15 @@ public class AddNRandomVertices implements GraphOperation {
             double xPos = rand.nextDouble() * width;
             double yPos = rand.nextDouble() * height;
             Vertex v = new Vertex("p"+gmi.getVertices().size(), xPos, yPos);
+            gmi.getVertices().add(v);
 
             //determine triangles to be changed
             ArrayList<Triangle> badTriangles = new ArrayList<Triangle>();
             for (Triangle triangle: triangulation) {
             	if (triangle.pointInsideCircumcircle(v)) {
-            		badTriangles.add(triangle);
+            	    // TODO: Add all possible triangles!
+            	    // The triangles we're trying to remove here don't exist yet!
+            		//badTriangles.add(triangle);
             	}
             }
 
@@ -119,25 +122,25 @@ public class AddNRandomVertices implements GraphOperation {
         }
         /* Delaunay */
 
-        for (int i=0; i<nRandomVertices; i++) {
-            double xPos = rand.nextDouble() * width;
-            double yPos = rand.nextDouble() * height;
-            Vertex v = new Vertex("p"+gmi.getVertices().size(), xPos, yPos);
-
-            // Edge creation O(n^2).
-            for (Vertex vB : gmi.getVertices()) {
-                Edge e = new Edge(v, vB);
-                double weight = Math.sqrt(
-                        (v.getX()-vB.getX())*(v.getX()-vB.getX())+
-                        (v.getY()-vB.getY())*(v.getY()-vB.getY())  );
-                e.setWeight(weight);
-
-                gmi.getEdges().add(e);
-            }
-
-            // Vertex creation O(n)
-            gmi.getVertices().add(v);
-		}
+//        for (int i=0; i<nRandomVertices; i++) {
+//            double xPos = rand.nextDouble() * width;
+//            double yPos = rand.nextDouble() * height;
+//            Vertex v = new Vertex("p"+gmi.getVertices().size(), xPos, yPos);
+//
+//            // Edge creation O(n^2).
+//            for (Vertex vB : gmi.getVertices()) {
+//                Edge e = new Edge(v, vB);
+//                double weight = Math.sqrt(
+//                        (v.getX()-vB.getX())*(v.getX()-vB.getX())+
+//                        (v.getY()-vB.getY())*(v.getY()-vB.getY())  );
+//                e.setWeight(weight);
+//
+//                gmi.getEdges().add(e);
+//            }
+//
+//            // Vertex creation O(n)
+//            gmi.getVertices().add(v);
+//		}
         long endTime  = System.nanoTime(); // Finish the total timing
         float timeElapsed = (endTime-startTime)/1000000.0f; // milliseconds
         System.out.println("Edge creation O(f(nE,nV)???):" + timeElapsed);

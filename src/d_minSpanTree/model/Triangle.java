@@ -24,10 +24,10 @@ public class Triangle {
 	    // The reason for saving so many points is to reduce the number of calculations.
 	    final double Ax = edgeArray.get(0).getStart().getX();
 	    final double Ay = edgeArray.get(0).getStart().getY();
-	    final double Bx = edgeArray.get(2).getStart().getX();
-	    final double By = edgeArray.get(2).getStart().getY();
-	    final double Cx = edgeArray.get(2).getEnd().getX();
-	    final double Cy = edgeArray.get(2).getEnd().getY();
+	    final double Bx = edgeArray.get(2).getEnd().getX();
+        final double By = edgeArray.get(2).getEnd().getY();
+	    final double Cx = edgeArray.get(2).getStart().getX();
+	    final double Cy = edgeArray.get(2).getStart().getY();
 	    final double Dx = v.getX();
         final double Dy = v.getY();
         final double DDx = Dx*Dx;
@@ -43,7 +43,7 @@ public class Triangle {
 	    final double i = (Cx*Cx - DDx) + (Cy*Cy - DDy);
 
 	    // These three lines should be equivalent
-	    // return a*e*i + b*f*g + c*d*h - c*e*g - b*d*i - a*f*h > 0;
+	    //return a*e*i + b*f*g + c*d*h - c*e*g - b*d*i - a*f*h > 0;
 	    // return (a*e*i + b*f*g + c*d*h) - (c*e*g + b*d*i + a*f*h) > 0;
 		return (a*e*i + b*f*g + c*d*h) > (c*e*g + b*d*i + a*f*h);
 	}
