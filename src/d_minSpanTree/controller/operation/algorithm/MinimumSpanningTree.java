@@ -2,18 +2,17 @@ package d_minSpanTree.controller.operation.algorithm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.TreeMap;
 
 import d_minSpanTree.model.Edge;
 import d_minSpanTree.model.GraphModelInterface;
 import d_minSpanTree.model.Vertex;
-import d_minSpanTree.model.VertexComparator;
 
 public class MinimumSpanningTree implements GraphAlgorithm {
 	private ArrayList<ArrayList<Vertex>> forest;
 	private HashMap<Vertex,ArrayList<Vertex>> vertexToTree;
 
-	public void execute(GraphModelInterface gmi) {
+	@Override
+    public void execute(GraphModelInterface gmi) {
 		forest = new ArrayList<ArrayList<Vertex>>();
 		for (Edge e : gmi.getEdges()) {
 			e.setOpacity(.05);
@@ -23,12 +22,16 @@ public class MinimumSpanningTree implements GraphAlgorithm {
 		System.out.println("Edges (after edge creation): " + gmi.getEdges().size());
 		ArrayList<Object> edges = new ArrayList<Object>();
 		edges.addAll(gmi.getEdges());
-		
+
 		for (Vertex v : gmi.getVertices()) {
 			ArrayList<Vertex> tree = new ArrayList<Vertex>();
 			tree.add(v);
 			vertexToTree.put(v,tree);
 			forest.add(tree);
+		}
+
+		for (Edge e : gmi.getEdges()) {
+		    e.setOpacity(0.2);
 		}
 
         // Kruskal's algorithm O(f(nE,nV)???) in an efficient time complexity implementation.
@@ -61,17 +64,17 @@ public class MinimumSpanningTree implements GraphAlgorithm {
 		for (Edge e : finalTree) {
 			e.setOpacity(1);
 		}
-		
+
 		gmi.getDisplayEdges().clear();
-        gmi.getDisplayEdges().addAll(finalTree); // Only adding the MST edges for display
-        //gmi.getDisplayEdges().addAll(gmi.getEdges()); // Adding all edges for display (Use this only if Delaunay)
+        //gmi.getDisplayEdges().addAll(finalTree); // Only adding the MST edges for display
+        gmi.getDisplayEdges().addAll(gmi.getEdges()); // Adding all edges for display (Use this only if Delaunay)
 	}
 
 	private ArrayList<Vertex> findTreeWithMap(Vertex vert) {
 		return vertexToTree.get(vert);
 	}
-	
-//Old findTree, for debugging and benchmarking purposes.	
+
+//Old findTree, for debugging and benchmarking purposes.
 	private ArrayList<Vertex> findTree(Vertex vert) {
 		for (ArrayList<Vertex> tree : forest) {
 			for (Vertex v : tree)
@@ -81,11 +84,13 @@ public class MinimumSpanningTree implements GraphAlgorithm {
 		return null;
 	}
 
-	public String getName() {
+	@Override
+    public String getName() {
 		return "Minimum Spanning Tree";
 	}
 
-	public boolean canLiveUpdate() {
+	@Override
+    public boolean canLiveUpdate() {
 		return true;
 	}
 
