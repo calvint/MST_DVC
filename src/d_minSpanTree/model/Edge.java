@@ -61,8 +61,11 @@ public class Edge {
 	}
 	
 	public boolean equals(Edge other) {
-		if ( (this.start.getX() == other.end.getX() & this.end.getY() == other.start.getY()) || 
-				(this.start.getX() == other.end.getX() & this.end.getY() == other.start.getY()) ) {
+		if ( this.start.getX() == other.start.getX() & this.start.getY() == other.start.getY() &
+				this.end.getX() == other.end.getX() & this.end.getY() == other.end.getY() ) {
+			return true;
+		} else if ( this.start.getX() == other.end.getX() & this.start.getY() == other.end.getY() &
+				this.end.getX() == other.start.getX() & this.end.getY() == other.start.getY() ) {
 			return true;
 		} else {
 			return false;
