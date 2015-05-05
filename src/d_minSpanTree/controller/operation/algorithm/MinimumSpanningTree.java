@@ -14,12 +14,12 @@ public class MinimumSpanningTree implements GraphAlgorithm {
 	@Override
     public void execute(GraphModelInterface gmi) {
 		forest = new ArrayList<ArrayList<Vertex>>();
-		for (Edge e : gmi.getEdges()) {
-			e.setOpacity(.05);
-		}
+//		for (Edge e : gmi.getEdges()) {
+//			e.setOpacity(.05);
+//		}
 		ArrayList<Edge> finalTree = new ArrayList<Edge>();
 		vertexToTree = new HashMap<>();
-		System.out.println("Edges (after edge creation): " + gmi.getEdges().size());
+	//	System.out.println("Edges (after edge creation): " + gmi.getEdges().size());
 		ArrayList<Object> edges = new ArrayList<Object>();
 		edges.addAll(gmi.getEdges());
 
@@ -30,9 +30,9 @@ public class MinimumSpanningTree implements GraphAlgorithm {
 			forest.add(tree);
 		}
 
-		for (Edge e : gmi.getEdges()) {
-		    e.setOpacity(0.1);
-		}
+//		for (Edge e : gmi.getEdges()) {
+//		    e.setOpacity(0.1);
+//		}
 
         // Kruskal's algorithm O(f(nE,nV)???) in an efficient time complexity implementation.
         long startTime = System.nanoTime(); // Start the total timing
