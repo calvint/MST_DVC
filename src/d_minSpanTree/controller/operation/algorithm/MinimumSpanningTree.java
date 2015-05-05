@@ -31,7 +31,7 @@ public class MinimumSpanningTree implements GraphAlgorithm {
 		}
 
 		for (Edge e : gmi.getEdges()) {
-		    e.setOpacity(0.2);
+		    e.setOpacity(0.1);
 		}
 
         // Kruskal's algorithm O(f(nE,nV)???) in an efficient time complexity implementation.
