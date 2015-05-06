@@ -44,7 +44,7 @@ public class DelaunayTriangulation implements GraphAlgorithm {
             //determine triangles to be changed
            // ArrayList<Edge> polygon = new ArrayList<Edge>();
             ArrayList<Triangle> badTriangles = new ArrayList<Triangle>();
-            TreeMap<Edge, ArrayList<Triangle>> edgeToTriangles = new TreeMap<>();
+            HashMap<Edge, ArrayList<Triangle>> edgeToTriangles = new HashMap<>();
             //we use TreeMap because I don't feel like writing a hashCode() function
             //ArrayList so that we can check "is not shared".
             //What happens upon insertion is, if it's not there already, create
@@ -53,7 +53,7 @@ public class DelaunayTriangulation implements GraphAlgorithm {
             //That said, once you do that it means you can map multiple
             //and then if for a particular triangle your list has length 1,
             //then it's not shared by anyone else.
-            TreeSet<Edge> polygon = new TreeSet<>();
+            HashSet<Edge> polygon = new HashSet<>();
             for (Triangle triangle: triangulation) {
             	if (triangle.pointInsideCircumcircle(v)) {
             		//instead of looping later to prune the bad triangle edges

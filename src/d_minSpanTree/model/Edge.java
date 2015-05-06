@@ -88,6 +88,11 @@ public class Edge extends Object implements Comparable<Edge>{
 	public double getSlope() {
 		return (end.getY() - start.getY()) / (end.getX() - start.getX());
 	}
+
+	@Override
+	public int hashCode() {
+		return start.hashCode() + end.hashCode();
+	}
 	
 	@Override
 	public int compareTo(Edge o) {
