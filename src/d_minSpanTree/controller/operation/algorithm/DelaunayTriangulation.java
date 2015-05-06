@@ -64,65 +64,8 @@ public class DelaunayTriangulation implements GraphAlgorithm {
             			currentTriangles.add(triangle);
             			edgeToTriangles.put(e,currentTriangles); //overwrites.
             		}
-
-//            		ArrayList<Edge> triangleEdges = triangle.getEdges();
-//            		boolean foundEdge = false; //if we find that the edge is shared
-//            		//don't bother adding this triangle's edges to the polygon
-//            		for (Edge e : triangleEdges) {
-//            			if (!(polygon.contains(e))) {
-//            				//ignore this triangle
-//            				polygon.add(e);
-//            			}
-//            		}
-//            		if (!foundEdge) {
-//            			//if none of the edges are shared, add all of them
-//            			//to the polygon
-//            			polygon.addAll(triangleEdges);
-//            		}
             	}
             }
-
-//            // debug
-//            System.out.println("Bad Triangles:");
-//            for (Triangle t : badTriangles) {
-//                System.out.println(t);
-//            }
-
-            //determine polygon around triangles that need to be changed
-
-            //for each of the triangles for which the new point is within the circumcircle
-//            for (Triangle badTriangle : badTriangles) {
-//
-//            	//find edges that are NOT shared by any other triangles
-//            	for (Edge edge : badTriangle.getEdges()) {
-//            		boolean shared = true;
-//            		ArrayList<Triangle> otherTriangles = edgeToTriangles.get(edge);
-//            		if (otherTriangles.size() < 2) {
-//            			//if the only reference to this edge is from this same triangle
-//            			//then just add it. If it's null...something's wrong, but add
-//            			//for safety.
-//            			shared = false;
-//            		}
-////            		outerloop:
-////            		for (Triangle otherBadTriangle : badTriangles) {
-////            			if (badTriangle != otherBadTriangle) {
-////            				for (Edge otherEdge: otherBadTriangle.getEdges()) {
-////            					if (edge.equals(otherEdge)) {
-////            						//if the edge is found in any of the other triangles
-////            						//break, and don't add it
-////            						shared = true;
-////            						break outerloop;
-////            					}
-////            				}
-////            			}
-////            		}
-//            		if (!shared) {
-//            			//we didn't find the edge, so do add it.
-//            			polygon.add(edge);
-//            		}
-//            	}
-//            }
-      //        System.out.println("Polygon size: " + polygon.size());
             //remove the outdated triangles - this stays so we don't get
             //IllegalStateExceptions!
             for (Triangle badTriangle : badTriangles) {
