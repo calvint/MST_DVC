@@ -37,22 +37,46 @@ public class DelaunayTriangulation implements GraphAlgorithm {
 //        	System.out.println("\nFor vertex ("+v.getX()+", "+v.getY()+"): ");
 
             //determine triangles to be changed
+            ArrayList<Edge> polygon = new ArrayList<Edge>();
             ArrayList<Triangle> badTriangles = new ArrayList<Triangle>();
-            Set<Edge> polygon = new HashSet<>();
+            //Set<Edge> polygon = new HashSet<>();
             for (Triangle triangle: triangulation) {
             	if (triangle.pointInsideCircumcircle(v)) {
             		//instead of looping later to prune the bad triangle edges
             		//try and remove them here
             		badTriangles.add(triangle); //make it a bad triangle
             		ArrayList<Edge> triangleEdges = triangle.getEdges();
-            		boolean foundEdge = false; //if we find that the edge is shared
-            		//don't bother adding this triangle's edges to the polygon
-            		for (Edge e : triangleEdges) {
-            			if (!(polygon.contains(e))) {
-            				//ignore this triangle
-            				polygon.add(e);
-            			}
+            		Triangle badTriangle = triangle;
+            		boolean shared = false;
+            		for (Edge edge : triangleEdges) {
+            			outerloop:
+            				for (Triangle otherBadTriangle : badTriangles) {
+            					if (badTriangle != otherBadTriangle) {
+            						for (Edge otherEdge: otherBadTriangle.getEdges()) {
+            							if (edge.equals(otherEdge)) {
+            								//if the edge is found in any of the other triangles
+            								//break, and don't add it
+            								shared = true;
+            								break outerloop;
+            							}
+            						}
+            					}
+            				}
+            		if (!shared) {
+            			//we didn't find the edge, so do add it.
+            			polygon.add(edge);
             		}
+            		}
+
+//            		ArrayList<Edge> triangleEdges = triangle.getEdges();
+//            		boolean foundEdge = false; //if we find that the edge is shared
+//            		//don't bother adding this triangle's edges to the polygon
+//            		for (Edge e : triangleEdges) {
+//            			if (!(polygon.contains(e))) {
+//            				//ignore this triangle
+//            				polygon.add(e);
+//            			}
+//            		}
 //            		if (!foundEdge) {
 //            			//if none of the edges are shared, add all of them
 //            			//to the polygon
@@ -68,7 +92,6 @@ public class DelaunayTriangulation implements GraphAlgorithm {
 //            }
 
             //determine polygon around triangles that need to be changed
-            //ArrayList<Edge> polygon = new ArrayList<Edge>();
 
             //for each of the triangles for which the new point is within the circumcircle
 //            for (Triangle badTriangle : badTriangles) {

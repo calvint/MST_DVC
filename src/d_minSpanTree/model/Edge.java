@@ -1,6 +1,6 @@
 package d_minSpanTree.model;
 
-public class Edge {
+public class Edge extends Object {
 	private Vertex start, end;
 	private double weight, opacity;
 	private EdgeState state;
@@ -69,6 +69,14 @@ public class Edge {
 			return true;
 		} else {
 			return false;
+		}
+	}
+
+	public boolean equals(Object other) {
+		if (!(other instanceof Edge) ) {
+			return false;
+		} else {
+			return equals((Edge) other);
 		}
 	}
 }
