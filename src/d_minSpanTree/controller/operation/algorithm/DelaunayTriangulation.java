@@ -1,8 +1,13 @@
 package d_minSpanTree.controller.operation.algorithm;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import d_minSpanTree.model.Edge;
 import d_minSpanTree.model.GraphModelInterface;
@@ -37,35 +42,33 @@ public class DelaunayTriangulation implements GraphAlgorithm {
 //        	System.out.println("\nFor vertex ("+v.getX()+", "+v.getY()+"): ");
 
             //determine triangles to be changed
-            ArrayList<Edge> polygon = new ArrayList<Edge>();
+           // ArrayList<Edge> polygon = new ArrayList<Edge>();
             ArrayList<Triangle> badTriangles = new ArrayList<Triangle>();
-            //Set<Edge> polygon = new HashSet<>();
+            TreeMap<Edge, ArrayList<Triangle>> edgeToTriangles = new TreeMap<>();
+            //we use TreeMap because I don't feel like writing a hashCode() function
+            //ArrayList so that we can check "is not shared".
+            //What happens upon insertion is, if it's not there already, create
+            //a new list, and add your edge. Otherwise, get it, and add to the list
+            //This REQUIRES that the Object equals() be overridden in Edge!
+            //That said, once you do that it means you can map multiple
+            //and then if for a particular triangle your list has length 1,
+            //then it's not shared by anyone else.
+            TreeSet<Edge> polygon = new TreeSet<>();
             for (Triangle triangle: triangulation) {
             	if (triangle.pointInsideCircumcircle(v)) {
             		//instead of looping later to prune the bad triangle edges
             		//try and remove them here
             		badTriangles.add(triangle); //make it a bad triangle
-            		ArrayList<Edge> triangleEdges = triangle.getEdges();
-            		Triangle badTriangle = triangle;
-            		boolean shared = false;
-            		for (Edge edge : triangleEdges) {
-            			outerloop:
-            				for (Triangle otherBadTriangle : badTriangles) {
-            					if (badTriangle != otherBadTriangle) {
-            						for (Edge otherEdge: otherBadTriangle.getEdges()) {
-            							if (edge.equals(otherEdge)) {
-            								//if the edge is found in any of the other triangles
-            								//break, and don't add it
-            								shared = true;
-            								break outerloop;
-            							}
-            						}
-            					}
-            				}
-            		if (!shared) {
-            			//we didn't find the edge, so do add it.
-            			polygon.add(edge);
-            		}
+            		for (Edge e : triangle.getEdges()) {
+            			ArrayList<Triangle> currentTriangles = edgeToTriangles.get(e);
+            			if (currentTriangles == null) {
+            				currentTriangles = new ArrayList<>();
+            				polygon.add(e);
+            			} else {
+            				polygon.remove(e);
+            			}
+            			currentTriangles.add(triangle);
+            			edgeToTriangles.put(e,currentTriangles); //overwrites.
             		}
 
 //            		ArrayList<Edge> triangleEdges = triangle.getEdges();
@@ -98,27 +101,34 @@ public class DelaunayTriangulation implements GraphAlgorithm {
 //
 //            	//find edges that are NOT shared by any other triangles
 //            	for (Edge edge : badTriangle.getEdges()) {
-//            		boolean shared = false;
-//            		outerloop:
-//            		for (Triangle otherBadTriangle : badTriangles) {
-//            			if (badTriangle != otherBadTriangle) {
-//            				for (Edge otherEdge: otherBadTriangle.getEdges()) {
-//            					if (edge.equals(otherEdge)) {
-//            						//if the edge is found in any of the other triangles
-//            						//break, and don't add it
-//            						shared = true;
-//            						break outerloop;
-//            					}
-//            				}
-//            			}
+//            		boolean shared = true;
+//            		ArrayList<Triangle> otherTriangles = edgeToTriangles.get(edge);
+//            		if (otherTriangles.size() < 2) {
+//            			//if the only reference to this edge is from this same triangle
+//            			//then just add it. If it's null...something's wrong, but add
+//            			//for safety.
+//            			shared = false;
 //            		}
+////            		outerloop:
+////            		for (Triangle otherBadTriangle : badTriangles) {
+////            			if (badTriangle != otherBadTriangle) {
+////            				for (Edge otherEdge: otherBadTriangle.getEdges()) {
+////            					if (edge.equals(otherEdge)) {
+////            						//if the edge is found in any of the other triangles
+////            						//break, and don't add it
+////            						shared = true;
+////            						break outerloop;
+////            					}
+////            				}
+////            			}
+////            		}
 //            		if (!shared) {
 //            			//we didn't find the edge, so do add it.
 //            			polygon.add(edge);
 //            		}
 //            	}
 //            }
-              System.out.println("Polygon size: " + polygon.size());
+      //        System.out.println("Polygon size: " + polygon.size());
             //remove the outdated triangles - this stays so we don't get
             //IllegalStateExceptions!
             for (Triangle badTriangle : badTriangles) {

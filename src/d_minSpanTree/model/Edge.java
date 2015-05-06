@@ -1,6 +1,6 @@
 package d_minSpanTree.model;
 
-public class Edge extends Object {
+public class Edge extends Object implements Comparable<Edge>{
 	private Vertex start, end;
 	private double weight, opacity;
 	private EdgeState state;
@@ -72,11 +72,37 @@ public class Edge extends Object {
 		}
 	}
 
+	@Override
 	public boolean equals(Object other) {
 		if (!(other instanceof Edge) ) {
 			return false;
 		} else {
 			return equals((Edge) other);
+		}
+	}
+
+	public String toString() {
+		return "["+start.getX() + ","+start.getY()+"],["+end.getX()+","+end.getY()+"]";
+	}
+
+	public double getSlope() {
+		return (end.getY() - start.getY()) / (end.getX() - start.getX());
+	}
+	
+	@Override
+	public int compareTo(Edge o) {
+		if (equals(o)) {
+			return 0;
+		} else {
+			double slope1 = getSlope();
+			double slope2 = o.getSlope(); 
+			if (slope1 < slope2) {
+				return -1;
+			} else if (slope1 > slope2) {
+				return 1;
+			} else {
+				return 0; //??? why are we here
+			}
 		}
 	}
 }
