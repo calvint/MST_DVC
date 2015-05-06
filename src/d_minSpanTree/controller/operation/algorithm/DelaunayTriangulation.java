@@ -45,14 +45,8 @@ public class DelaunayTriangulation implements GraphAlgorithm {
            // ArrayList<Edge> polygon = new ArrayList<Edge>();
             ArrayList<Triangle> badTriangles = new ArrayList<Triangle>();
             HashMap<Edge, ArrayList<Triangle>> edgeToTriangles = new HashMap<>();
-            //we use TreeMap because I don't feel like writing a hashCode() function
-            //ArrayList so that we can check "is not shared".
-            //What happens upon insertion is, if it's not there already, create
-            //a new list, and add your edge. Otherwise, get it, and add to the list
-            //This REQUIRES that the Object equals() be overridden in Edge!
-            //That said, once you do that it means you can map multiple
-            //and then if for a particular triangle your list has length 1,
-            //then it's not shared by anyone else.
+            //hashmap should in theory be faster
+            //but it's not
             HashSet<Edge> polygon = new HashSet<>();
             for (Triangle triangle: triangulation) {
             	if (triangle.pointInsideCircumcircle(v)) {
